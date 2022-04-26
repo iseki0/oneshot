@@ -58,9 +58,9 @@ func (this *_S) Wait(ctx context.Context, keys ...string) (timeout bool) {
 
 	select {
 	case <-ctx.Done():
-		timeout = false
-	case <-ch:
 		timeout = true
+	case <-ch:
+		timeout = false
 	}
 
 	this.L.Lock()

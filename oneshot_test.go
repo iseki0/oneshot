@@ -20,7 +20,7 @@ func TestOneShot(t *testing.T) {
 	go func() {
 		defer wg.Done()
 		_t := time.Now()
-		assert.True(t, source.Wait(context.TODO(), "foo", "bar"))
+		assert.False(t, source.Wait(context.TODO(), "foo", "bar"))
 		assert.True(t, time.Now().Sub(_t).Milliseconds() >= 1000, "duang~~~")
 		fmt.Println("=========", time.Now().Sub(_t).Microseconds())
 	}()
@@ -29,7 +29,7 @@ func TestOneShot(t *testing.T) {
 		defer wg.Done()
 		timeout, cancelFunc := context.WithTimeout(context.TODO(), time.Millisecond*50)
 		defer cancelFunc()
-		assert.False(t, source.Wait(timeout, "bar"), "duang22")
+		assert.True(t, source.Wait(timeout, "bar"), "duang22")
 	}()
 	wg.Wait()
 }
